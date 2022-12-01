@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SolicitudMail;
 use App\Models\ConsultaSQL;
 use App\Models\Documento;
 use App\Models\Paciente;
 use App\Models\Solicitud;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class SolicitudController extends Controller
 {
@@ -107,6 +109,18 @@ class SolicitudController extends Controller
                 'status'=>"success",
                 'data'=>"Datos Registrados Exitosamente",
             ];
+            if($request->estado_solicitud=="RECHAZAR"){
+                $details=[
+                    'titulo'=>"ESTADO DE SOLICITUD NAVA",
+                    'asunto'=>"ESTADO DE SOLICITUD NAVA",
+                    'nombre'=>$solicitud->full_name,
+                    'motivos'=>$solicitud->mensaje,
+                    'tipo'=>2
+                    ];
+                    if (filter_var($solicitud->correo, FILTER_VALIDATE_EMAIL)) {
+                        Mail::to($solicitud->correo)->send(new SolicitudMail($details));
+                    }
+            }
         }else{
             $data=[
                 'status'=>"error",
