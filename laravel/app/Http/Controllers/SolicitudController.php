@@ -114,7 +114,7 @@ class SolicitudController extends Controller
                     'titulo'=>"ESTADO DE SOLICITUD NAVA",
                     'asunto'=>"ESTADO DE SOLICITUD NAVA",
                     'nombre'=>$solicitud->full_name,
-                    'motivos'=>$solicitud->mensaje,
+                    'motivo'=>$solicitud->motivo,
                     'tipo'=>2
                     ];
                     if (filter_var($solicitud->correo, FILTER_VALIDATE_EMAIL)) {
